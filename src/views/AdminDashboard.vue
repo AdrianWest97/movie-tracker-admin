@@ -178,7 +178,7 @@ async function confirmSeed() {
           <input
             v-model="seedConfirmText"
             placeholder="seed"
-            class="input mt-4 w-full"
+            class="mt-4 w-full px-3 py-2 rounded-md bg-ink-900 border border-ink-700 text-bone-50 mono placeholder:text-bone-500 focus:outline-none focus:ring-2 focus:ring-amber-accent/60 focus:border-amber-accent/60"
             autofocus
             @keyup.enter="confirmSeed"
           />
