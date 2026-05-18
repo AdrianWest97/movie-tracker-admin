@@ -126,7 +126,12 @@ async function logout() {
         </div>
       </aside>
 
-      <div class="min-h-screen">
+      <!-- min-w-0 lets the 1fr track shrink below its content's natural
+           width — otherwise wide tables (Ads, Movies) push the page
+           past the viewport and the right-rail actions get pushed
+           offscreen. Pair with overflow-x-auto on any wide tables
+           inside the page so horizontal scroll stays local to them. -->
+      <div class="min-h-screen min-w-0">
         <RouterView />
       </div>
     </div>

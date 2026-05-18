@@ -172,8 +172,8 @@ onMounted(load);
     <div v-else-if="filtered.length === 0" class="card p-12 text-center">
       <p class="display text-2xl mb-2">No users match.</p>
     </div>
-    <div v-else class="card overflow-hidden">
-      <table class="w-full text-sm">
+    <div v-else class="card overflow-x-auto">
+      <table class="w-full text-sm min-w-[640px]">
         <thead class="bg-ink-800/70 text-bone-300 text-[10px] uppercase tracking-eyebrow">
           <tr>
             <th class="text-left px-4 py-3">User</th>

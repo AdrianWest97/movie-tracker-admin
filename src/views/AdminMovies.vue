@@ -117,8 +117,8 @@ onMounted(load);
       <p class="display text-2xl mb-2">No films match.</p>
       <p class="text-bone-300 text-sm">Try a different search or filter.</p>
     </div>
-    <div v-else class="card overflow-hidden">
-      <table class="w-full text-sm">
+    <div v-else class="card overflow-x-auto">
+      <table class="w-full text-sm min-w-[640px]">
         <thead class="bg-ink-800/70 text-bone-300 text-[10px] uppercase tracking-eyebrow">
           <tr>
             <th class="text-left px-4 py-3">Film</th>
