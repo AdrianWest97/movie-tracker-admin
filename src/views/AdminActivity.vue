@@ -209,9 +209,9 @@ onMounted(load);
 
             <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-3 pt-1">
               <span class="text-bone-50 font-medium">{{ metaFor(entry.actionType).label }}</span>
-              <span class="hidden sm:inline text-ink-500">·</span>
+              <span class="hidden sm:inline text-bone-300">·</span>
               <span class="text-sm text-bone-200">{{ entry.resourceLabel || entry.resourceType || '—' }}</span>
-              <span v-if="entry.user" class="hidden sm:inline text-ink-500">·</span>
+              <span v-if="entry.user" class="hidden sm:inline text-bone-300">·</span>
               <span v-if="entry.user" class="text-sm text-bone-300">{{ entry.user.displayName || entry.user.email }}</span>
               <span class="hidden sm:inline ml-auto mono text-[11px] text-bone-300 tabular-nums">{{ formatTime(entry.createdAtUtc) }}</span>
             </div>

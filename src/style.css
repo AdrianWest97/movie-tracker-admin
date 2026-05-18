@@ -162,7 +162,7 @@
 
   /* Spine number */
   .spine-num {
-    @apply mono text-[10px] tracking-widest text-bone-300/80;
+    @apply mono text-[10px] tracking-widest text-bone-300;
   }
 }
 

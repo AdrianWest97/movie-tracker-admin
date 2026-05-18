@@ -9,7 +9,7 @@ const router = useRouter();
 const toastRef = useTemplateRef('toast');
 
 const isNew = computed(() => route.name === 'movie-new');
-const movieId = computed(() => (isNew.value ? null : Number(route.params.id)));
+const movieId = computed(() => (isNew.value ? null : route.params.id));
 
 const loading = ref(!isNew.value);
 const submitting = ref(false);
@@ -260,7 +260,7 @@ const previewGenres = computed(() => parseList(form.genres).slice(0, 3));
                     <div class="text-bone-50 text-sm font-medium truncate">{{ r.title }}</div>
                     <div class="text-[11px] text-bone-300 truncate">
                       <span class="mono">{{ r.year || '—' }}</span>
-                      <span class="text-ink-500"> · </span>
+                      <span class="text-bone-300"> · </span>
                       <span class="mono">{{ r.imdbId }}</span>
                     </div>
                   </div>
@@ -384,7 +384,7 @@ const previewGenres = computed(() => parseList(form.genres).slice(0, 3));
               class="absolute inset-0 w-full h-full object-cover"
               @error="$event.target.style.display = 'none'"
             />
-            <div v-else class="absolute inset-0 flex items-center justify-center text-ink-500 text-xs uppercase tracking-eyebrow">
+            <div v-else class="absolute inset-0 flex items-center justify-center text-bone-300 text-xs uppercase tracking-eyebrow">
               No poster
             </div>
           </div>
@@ -393,7 +393,7 @@ const previewGenres = computed(() => parseList(form.genres).slice(0, 3));
               <h3 class="display text-xl font-medium leading-tight line-clamp-2">{{ form.title || 'Untitled film' }}</h3>
               <div class="text-xs text-bone-300 mt-1">
                 <span class="mono">{{ form.year || '—' }}</span>
-                <span v-if="form.director" class="text-ink-500"> · </span>
+                <span v-if="form.director" class="text-bone-300"> · </span>
                 <span v-if="form.director">{{ form.director }}</span>
               </div>
             </div>

@@ -2,9 +2,13 @@
 import { ref, reactive, computed, onMounted } from 'vue';
 import api from '../api/client.js';
 import AdPreview from './AdPreview.vue';
+import { useDialogA11y } from '../composables/useDialogA11y.js';
 
 const props = defineProps({ ad: { type: Object, default: null } });
 const emit = defineEmits(['close', 'saved']);
+
+// Esc closes + body scroll-lock + focus restore.
+useDialogA11y(() => emit('close'));
 
 const isEdit = computed(() => !!props.ad);
 
@@ -220,12 +224,12 @@ async function submit() {
               <div>
                 <label class="label">Starts at (optional)</label>
                 <input v-model="form.startsAt" type="datetime-local" class="field" />
-                <p class="text-[10px] text-bone-400 mt-1">Leave blank to start immediately.</p>
+                <p class="text-[10px] text-bone-300 mt-1">Leave blank to start immediately.</p>
               </div>
               <div>
                 <label class="label">Ends at (optional)</label>
                 <input v-model="form.endsAt" type="datetime-local" class="field" :min="form.startsAt || undefined" />
-                <p class="text-[10px] text-bone-400 mt-1">Leave blank to run indefinitely.</p>
+                <p class="text-[10px] text-bone-300 mt-1">Leave blank to run indefinitely.</p>
               </div>
             </div>
 

@@ -142,7 +142,7 @@ onMounted(load);
               <div class="text-bone-50 font-medium truncate text-sm">{{ m.title }}</div>
               <div class="text-[11px] text-bone-300 truncate">
                 {{ m.year || '—' }}
-                <span v-if="m.director" class="text-ink-500"> · </span>
+                <span v-if="m.director" class="text-bone-300"> · </span>
                 <span v-if="m.director">{{ m.director }}</span>
                 <span v-if="m.imdbRating != null" class="text-amber-accent ml-2">IMDb {{ m.imdbRating }}</span>
               </div>
@@ -186,7 +186,7 @@ onMounted(load);
             <div class="min-w-0 flex-1">
               <div class="text-bone-50 font-medium truncate text-sm">{{ m.title }}</div>
               <div class="text-[11px] text-bone-300 truncate">
-                {{ m.year || '—' }}<span v-if="m.director" class="text-ink-500"> · </span>{{ m.director }}
+                {{ m.year || '—' }}<span v-if="m.director" class="text-bone-300"> · </span>{{ m.director }}
               </div>
             </div>
             <div class="inline-flex items-center gap-0.5">

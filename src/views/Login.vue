@@ -71,7 +71,7 @@ async function submit() {
         </button>
       </form>
 
-      <p class="text-[11px] text-bone-300/70 mt-8 leading-relaxed">
+      <p class="text-[11px] text-bone-300 mt-8 leading-relaxed">
         Looking for the main app?
         <a :href="`http://${typeof location !== 'undefined' ? location.hostname : 'localhost'}:5173`" class="text-amber-accent hover:underline">Open Adrian&rsquo;s Cut →</a>
       </p>

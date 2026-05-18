@@ -10,7 +10,9 @@ const routes = [
       { path: '',         name: 'dashboard', component: () => import('../views/AdminDashboard.vue') },
       { path: 'movies',          name: 'movies',     component: () => import('../views/AdminMovies.vue') },
       { path: 'movies/new',      name: 'movie-new',  component: () => import('../views/AdminMovieEdit.vue') },
-      { path: 'movies/:id/edit', name: 'movie-edit', component: () => import('../views/AdminMovieEdit.vue') },
+      // Match either the opaque public_id (ac_xxxxxxxxxx) or a legacy
+      // numeric id. The list view sends public_id; legacy bookmarks still work.
+      { path: 'movies/:id(ac_[0-9a-z]{10}|\\d+)/edit', name: 'movie-edit', component: () => import('../views/AdminMovieEdit.vue') },
       { path: 'featured',        name: 'featured',   component: () => import('../views/AdminFeatured.vue') },
       { path: 'users',    name: 'users',     component: () => import('../views/AdminUsers.vue') },
       { path: 'reviews',  name: 'reviews',   component: () => import('../views/AdminReviews.vue') },

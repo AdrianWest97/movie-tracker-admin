@@ -73,11 +73,12 @@ onMounted(load);
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="p-6 lg:p-10 space-y-8">
     <header class="flex items-end justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-semibold">Slot inventory</h1>
-        <p class="text-sm text-bone-300 mt-1">
+        <div class="eyebrow mb-2 text-amber-accent">— Inventory</div>
+        <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Slots</h1>
+        <p class="text-sm text-bone-300 mt-3 max-w-xl leading-relaxed">
           Define ad slots, set pricing, and toggle availability. Slots flow through to the
           <RouterLink to="/ad-requests" class="underline-offset-2 hover:text-amber-accent">ad-request</RouterLink> review queue.
         </p>
@@ -118,11 +119,11 @@ onMounted(load);
             </td>
             <td class="py-3 pr-4 text-bone-300">
               <div v-if="s.placementRoute" class="mono text-[11px]">{{ s.placementRoute }}</div>
-              <div v-if="s.placementPosition" class="text-[11px] uppercase tracking-eyebrow text-bone-400">{{ s.placementPosition }}</div>
+              <div v-if="s.placementPosition" class="text-[11px] uppercase tracking-eyebrow text-bone-300">{{ s.placementPosition }}</div>
             </td>
             <td class="py-3 pr-4 text-bone-300">
               <div class="text-[12px]">{{ s.recommendedFormat || '—' }}</div>
-              <div v-if="s.dimensions" class="mono text-[10px] text-bone-400">{{ s.dimensions }}</div>
+              <div v-if="s.dimensions" class="mono text-[10px] text-bone-300">{{ s.dimensions }}</div>
             </td>
             <td class="py-3 pr-4 text-right mono">{{ priceLabel(s) }}</td>
             <td class="py-3 pr-4 text-right">{{ s.activeAdCount }}</td>
@@ -130,7 +131,7 @@ onMounted(load);
               <RouterLink v-if="s.pendingRequestCount" to="/ad-requests" class="text-amber-accent underline-offset-2 hover:underline">
                 {{ s.pendingRequestCount }}
               </RouterLink>
-              <span v-else class="text-bone-400">0</span>
+              <span v-else class="text-bone-300">0</span>
             </td>
             <td class="py-3 pr-4">
               <button

@@ -1,8 +1,11 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import api from '../api/client.js';
+import { useDialogA11y } from '../composables/useDialogA11y.js';
 
 const emit = defineEmits(['close', 'created']);
+
+useDialogA11y(() => emit('close'));
 
 const form = reactive({
   email: '',

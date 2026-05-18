@@ -301,7 +301,7 @@ onMounted(load);
             <ul v-else-if="userActivity.length" class="space-y-2.5 max-h-[28rem] overflow-y-auto">
               <li v-for="e in userActivity" :key="e.id" class="text-sm">
                 <div class="text-bone-50">{{ ACTION_LABEL[e.actionType] || e.actionType }}<span v-if="e.resourceLabel"> · <span class="text-bone-300">{{ e.resourceLabel }}</span></span></div>
-                <div class="mono text-[11px] text-bone-300/80 tabular-nums">{{ formatTime(e.createdAtUtc) }}</div>
+                <div class="mono text-[11px] text-bone-300 tabular-nums">{{ formatTime(e.createdAtUtc) }}</div>
               </li>
             </ul>
             <div v-else class="text-bone-300 text-sm">No activity recorded.</div>

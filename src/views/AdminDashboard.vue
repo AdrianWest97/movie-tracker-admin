@@ -126,7 +126,7 @@ onMounted(load);
             :title="`${d.day} — ${d.count} event${d.count === 1 ? '' : 's'}`"
           ></div>
         </div>
-        <div class="flex justify-between mt-2 mono text-[10px] text-bone-300/80">
+        <div class="flex justify-between mt-2 mono text-[10px] text-bone-300">
           <span>{{ sparklineDays[0]?.day.slice(5) }}</span>
           <span>{{ sparklineDays.at(-1)?.day.slice(5) }}</span>
         </div>
@@ -183,7 +183,7 @@ onMounted(load);
         </div>
         <ul class="divide-y divide-ink-800/70">
           <li v-for="entry in data.recentActivity" :key="entry.id" class="py-3 flex items-baseline gap-3 text-sm">
-            <span class="mono text-[11px] text-bone-300/80 tabular-nums w-32 shrink-0">{{ formatTime(entry.createdAtUtc) }}</span>
+            <span class="mono text-[11px] text-bone-300 tabular-nums w-32 shrink-0">{{ formatTime(entry.createdAtUtc) }}</span>
             <span class="text-bone-50 font-medium">{{ ACTION_LABEL[entry.actionType] || entry.actionType }}</span>
             <span class="text-bone-300 truncate flex-1">
               <span v-if="entry.user?.displayName">{{ entry.user.displayName }}</span>

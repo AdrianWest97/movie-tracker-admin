@@ -1,11 +1,14 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import api from '../api/client.js';
+import { useDialogA11y } from '../composables/useDialogA11y.js';
 
 const props = defineProps({
   slot: { type: Object, default: null }  // null = create mode
 });
 const emit = defineEmits(['saved', 'close']);
+
+useDialogA11y(() => emit('close'));
 
 const isCreate = computed(() => !props.slot);
 

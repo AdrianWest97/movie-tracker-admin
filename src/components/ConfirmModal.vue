@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { watch, onBeforeUnmount, useTemplateRef, nextTick } from 'vue';
+
+const props = defineProps({
   open: { type: Boolean, required: true },
   title: { type: String, default: 'Are you sure?' },
   body: { type: String, default: '' },
@@ -8,6 +10,35 @@ defineProps({
   danger: { type: Boolean, default: false }
 });
 const emit = defineEmits(['confirm', 'cancel']);
+const confirmBtn = useTemplateRef('confirmBtn');
+let prevActive = null;
+
+function onKeydown(e) {
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    emit('cancel');
+  }
+}
+
+watch(() => props.open, async (isOpen) => {
+  if (isOpen) {
+    prevActive = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeydown);
+    await nextTick();
+    confirmBtn.value?.focus();
+  } else {
+    document.body.style.overflow = '';
+    window.removeEventListener('keydown', onKeydown);
+    prevActive?.focus?.();
+    prevActive = null;
+  }
+}, { immediate: true });
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = '';
+  window.removeEventListener('keydown', onKeydown);
+});
 </script>
 
 <template>
@@ -29,9 +60,11 @@ const emit = defineEmits(['confirm', 'cancel']);
         <p v-if="body" class="text-sm text-bone-300 mt-2 leading-relaxed">{{ body }}</p>
         <div class="flex items-center justify-end gap-2 mt-6">
           <button class="btn-secondary" @click="emit('cancel')">{{ cancelLabel }}</button>
-          <button :class="danger ? 'btn-danger' : 'btn-primary'" @click="emit('confirm')">
-            {{ confirmLabel }}
-          </button>
+          <button
+            ref="confirmBtn"
+            :class="danger ? 'btn-danger' : 'btn-primary'"
+            @click="emit('confirm')"
+          >{{ confirmLabel }}</button>
         </div>
       </div>
     </div>

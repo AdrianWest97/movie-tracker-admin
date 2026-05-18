@@ -1,57 +1,43 @@
 <script setup>
-// Brand wordmark. "Adrian's" reads as the editorial voice in Fraunces;
-// "Cut" picks up the amber accent in italic — a quiet nod to the
-// director's-cut notation that's the platform's identity.
+// Brand wordmark. The logo art lives in /public — gold cursive "Adrian's"
+// over the cream "CUT" caps with the swoosh-star flourish. Two PNGs:
+// `logo.png` is the wordmark-only mark with a transparent background,
+// used at sm/md/lg/xl. `logo-hero.png` is the full lockup with the
+// "DIRECTOR'S CUT" tagline, also transparent, used for the admin login
+// hero treatment.
+
 defineProps({
   size: { type: String, default: 'md' } // sm | md | lg | xl | hero
 });
 </script>
 
 <template>
-  <span :class="['wordmark', `wordmark-${size}`]">
-    <span class="wordmark-name">Adrian's</span>
-    <span class="wordmark-cut">Cut</span>
-  </span>
+  <img
+    v-if="size === 'hero'"
+    src="/logo-hero.png"
+    alt="Adrian's Cut"
+    :class="['wordmark', `wordmark-${size}`]"
+    draggable="false"
+  />
+  <img
+    v-else
+    src="/logo.png"
+    alt="Adrian's Cut"
+    :class="['wordmark', `wordmark-${size}`]"
+    draggable="false"
+  />
 </template>
 
 <style scoped>
 .wordmark {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.22em;
-  line-height: 1;
-  color: theme('colors.bone.50');
-}
-.wordmark-cut {
-  font-style: italic;
-  font-weight: 500;
-  color: theme('colors.amber.accent');
-  letter-spacing: 0;
-  /* Subtle slash flourish — like a director's cut tally mark — drawn
-     in CSS so no asset is required. Visible only on md+ sizes. */
-  position: relative;
-}
-.wordmark-md .wordmark-cut::before,
-.wordmark-lg .wordmark-cut::before,
-.wordmark-xl .wordmark-cut::before,
-.wordmark-hero .wordmark-cut::before {
-  content: '';
-  position: absolute;
-  left: -0.18em;
-  bottom: 0.12em;
-  width: 1px;
-  height: 0.8em;
-  background: theme('colors.amber.accent' / 60%);
-  transform: rotate(15deg);
+  display: inline-block;
+  width: auto;
+  user-select: none;
 }
 
-.wordmark-sm   { font-size: 1rem; }       /* 16px */
-.wordmark-md   { font-size: 1.5rem; }     /* 24px — header */
-.wordmark-lg   { font-size: 1.875rem; }   /* 30px — login */
-.wordmark-xl   { font-size: 2.5rem; }     /* 40px */
-.wordmark-hero { font-size: 4rem; }       /* large landing-page treatment */
+.wordmark-sm   { height: 22px; }
+.wordmark-md   { height: 40px; }
+.wordmark-lg   { height: 56px; }
+.wordmark-xl   { height: 76px; }
+.wordmark-hero { height: 140px; }
 </style>

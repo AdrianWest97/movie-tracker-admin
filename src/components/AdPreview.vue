@@ -176,7 +176,7 @@ const a = computed(() => ({
           <div class="absolute inset-0 opacity-50" style="background-image: repeating-linear-gradient(90deg, rgba(232,176,74,0.08) 0 2px, transparent 2px 14px), repeating-linear-gradient(90deg, transparent 0 4px, rgba(8,7,10,0.55) 4px 14px);"></div>
           <div class="relative text-center px-4">
             <div class="display text-4xl font-semibold tracking-tight text-amber-accent leading-none">{{ monogram }}</div>
-            <div class="eyebrow text-bone-300/80 mt-3">— Sponsored</div>
+            <div class="eyebrow text-bone-300 mt-3">— Sponsored</div>
           </div>
         </div>
         <div class="flex-1 p-5 sm:p-6 flex flex-col justify-between gap-3">
@@ -199,11 +199,11 @@ const a = computed(() => ({
       >
         <span class="text-amber-accent">★</span>
         <span>{{ a.headline }}</span>
-        <span class="text-ink-500">— Sponsored by {{ a.advertiser }}</span>
+        <span class="text-bone-300">— Sponsored by {{ a.advertiser }}</span>
       </div>
 
       <!-- Unknown format fallback -->
-      <div v-else class="w-full h-full flex items-center justify-center text-xs text-bone-400 italic">
+      <div v-else class="w-full h-full flex items-center justify-center text-xs text-bone-300 italic">
         Preview for "{{ ad.format }}" not available
       </div>
     </div>

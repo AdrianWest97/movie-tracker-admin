@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, useTemplateRef } from 'vue';
 import api from '../api/client.js';
 import Toast from '../components/Toast.vue';
+import { useDialogA11y } from '../composables/useDialogA11y.js';
 
 const requests = ref([]);
 const loading = ref(true);
@@ -54,6 +55,10 @@ function closeReview() {
   overrideFormat.value = '';
 }
 
+// Modal a11y: Esc closes the review drawer, body scroll locks while it's
+// open, focus returns to whatever opened it.
+useDialogA11y(closeReview, () => !!reviewing.value);
+
 async function decide(action) {
   if (!reviewing.value) return;
   submitting.value = true;
@@ -80,10 +85,11 @@ onMounted(load);
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="p-6 lg:p-10 space-y-8">
     <header>
-      <h1 class="text-2xl font-semibold">Ad requests</h1>
-      <p class="text-sm text-bone-300 mt-1">Review submissions from advertisers. Approving creates a live ad row tied to the chosen slot.</p>
+      <div class="eyebrow mb-2 text-amber-accent">— Review queue</div>
+      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Ad requests</h1>
+      <p class="text-sm text-bone-300 mt-3 max-w-xl leading-relaxed">Review submissions from advertisers. Approving creates a live ad row tied to the chosen slot.</p>
     </header>
 
     <!-- Tabs -->
@@ -95,7 +101,7 @@ onMounted(load);
         :class="{ 'is-active': tab === t }"
       >
         {{ t }}
-        <span class="ml-2 text-[10px] text-bone-400">{{ counts[t] }}</span>
+        <span class="ml-2 text-[10px] text-bone-300">{{ counts[t] }}</span>
       </button>
     </div>
 
@@ -113,7 +119,7 @@ onMounted(load);
             <div class="mt-2 text-bone-100">{{ r.headline }}</div>
             <p v-if="r.body" class="text-sm text-bone-300 mt-1">{{ r.body }}</p>
             <div class="mt-3 text-xs text-bone-300 flex flex-wrap gap-x-5 gap-y-1">
-              <span>From: <span class="text-bone-100">{{ r.user.displayName }}</span> <span class="text-bone-400">&lt;{{ r.user.email }}&gt;</span></span>
+              <span>From: <span class="text-bone-100">{{ r.user.displayName }}</span> <span class="text-bone-300">&lt;{{ r.user.email }}&gt;</span></span>
               <span v-if="r.contactEmail">Reply-to: {{ r.contactEmail }}</span>
               <span v-if="r.budgetCents">Budget: {{ priceLabel(r.budgetCents) }}</span>
               <span>Submitted: <span class="mono">{{ r.createdAt?.slice(0, 16).replace('T', ' ') }}</span></span>
@@ -131,7 +137,7 @@ onMounted(load);
             <div v-if="r.status === 'pending'" class="mt-3">
               <button @click="openReview(r)" class="btn-primary btn-sm">Review</button>
             </div>
-            <div v-if="r.createdAdId" class="text-[11px] text-bone-400 mt-2">
+            <div v-if="r.createdAdId" class="text-[11px] text-bone-300 mt-2">
               Live as ad #{{ r.createdAdId }}
             </div>
           </div>
@@ -140,11 +146,18 @@ onMounted(load);
     </div>
 
     <!-- Review modal -->
-    <div v-if="reviewing" class="modal-backdrop" @click.self="closeReview">
+    <div
+      v-if="reviewing"
+      class="modal-backdrop"
+      @click.self="closeReview"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="review-modal-title"
+    >
       <div class="modal">
         <header class="modal-head">
-          <h2 class="text-lg font-medium">Review request</h2>
-          <button @click="closeReview" class="head-x">×</button>
+          <h2 id="review-modal-title" class="text-lg font-medium">Review request</h2>
+          <button @click="closeReview" class="head-x" aria-label="Close review">×</button>
         </header>
         <div class="modal-body space-y-4">
           <div class="text-sm">
@@ -153,13 +166,13 @@ onMounted(load);
             <div><span class="text-bone-300">Headline:</span> {{ reviewing.headline }}</div>
           </div>
           <label class="block">
-            <span class="form-label">Format override <span class="text-bone-400 normal-case">(optional)</span></span>
+            <span class="form-label">Format override <span class="text-bone-300 normal-case">(optional)</span></span>
             <select v-model="overrideFormat" class="form-input">
               <option v-for="f in FORMATS" :key="f.value" :value="f.value">{{ f.label }}</option>
             </select>
           </label>
           <label class="block">
-            <span class="form-label">Notes <span class="text-bone-400 normal-case">(visible to advertiser)</span></span>
+            <span class="form-label">Notes <span class="text-bone-300 normal-case">(visible to advertiser)</span></span>
             <textarea v-model="notes" rows="3" maxlength="1000" class="form-input"></textarea>
           </label>
           <div class="flex items-center justify-between gap-3 pt-2">

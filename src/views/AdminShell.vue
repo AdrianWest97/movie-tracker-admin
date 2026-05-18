@@ -13,19 +13,22 @@ const initials = computed(() => {
   return name.split(/\s+/).map(p => p[0]).filter(Boolean).slice(0, 2).join('').toUpperCase() || 'A';
 });
 
+// Each nav item gets a distinct icon. Reads grouped: editorial (catalogue,
+// featured) · audience (users, reviews) · ads (ads, slots, ad-requests) ·
+// system (ai, flags, analytics, activity). Dashboard sits above the groups.
 const NAV = [
-  { to: '/',          label: 'Dashboard',  icon: 'dashboard' },
-  { to: '/movies',    label: 'Catalogue',  icon: 'film' },
-  { to: '/featured',  label: 'Featured',   icon: 'sparkle' },
-  { to: '/users',     label: 'Users',      icon: 'users' },
-  { to: '/reviews',   label: 'Reviews',    icon: 'message' },
-  { to: '/ads',       label: 'Ads',        icon: 'megaphone' },
-  { to: '/slots',     label: 'Slots',      icon: 'megaphone' },
-  { to: '/ad-requests', label: 'Ad requests', icon: 'megaphone' },
-  { to: '/ai',        label: 'AI',         icon: 'sparkle' },
-  { to: '/flags',     label: 'Feature flags', icon: 'flag' },
-  { to: '/analytics', label: 'Analytics',  icon: 'chart' },
-  { to: '/activity',  label: 'Activity',   icon: 'pulse' }
+  { to: '/',            label: 'Dashboard',     icon: 'dashboard' },
+  { to: '/movies',      label: 'Catalogue',     icon: 'film' },
+  { to: '/featured',    label: 'Featured',      icon: 'bookmark' },
+  { to: '/users',       label: 'Users',         icon: 'users' },
+  { to: '/reviews',     label: 'Reviews',       icon: 'message' },
+  { to: '/ads',         label: 'Ads',           icon: 'megaphone' },
+  { to: '/slots',       label: 'Slots',         icon: 'grid' },
+  { to: '/ad-requests', label: 'Ad requests',   icon: 'inbox' },
+  { to: '/ai',          label: 'AI',            icon: 'sparkle' },
+  { to: '/flags',       label: 'Feature flags', icon: 'flag' },
+  { to: '/analytics',   label: 'Analytics',     icon: 'chart' },
+  { to: '/activity',    label: 'Activity',      icon: 'pulse' }
 ];
 
 function isActive(path) {
@@ -87,28 +90,35 @@ async function logout() {
     <div class="flex-1 grid lg:grid-cols-[240px_1fr]">
       <aside class="border-b lg:border-b-0 lg:border-r border-ink-800/80 bg-ink-900/30">
         <div class="lg:sticky lg:top-16 p-4 lg:p-6">
-          <nav class="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible">
+          <nav class="flex lg:flex-col gap-0.5 overflow-x-auto lg:overflow-visible">
             <RouterLink
               v-for="item in NAV"
               :key="item.to"
               :to="item.to"
               :class="[
-                'flex items-center gap-2.5 px-3 py-2 rounded-md text-sm whitespace-nowrap transition-colors',
+                // Active = amber text only (the single functional accent),
+                // anchored by a 1px amber edge on the inactive side of the
+                // tab. No background tint; the marquee rule means amber is
+                // marquee-rare, not chip-sprinkled.
+                'group relative flex items-center gap-2.5 pl-3 pr-3 py-2 rounded-md text-sm whitespace-nowrap transition-colors',
                 isActive(item.to)
-                  ? 'bg-amber-accent/10 text-amber-accent'
+                  ? 'text-amber-accent lg:before:absolute lg:before:left-0 lg:before:top-2 lg:before:bottom-2 lg:before:w-px lg:before:bg-amber-accent'
                   : 'text-bone-200 hover:text-bone-50 hover:bg-ink-800/60'
               ]"
             >
               <span class="w-4 h-4 inline-flex items-center justify-center">
                 <svg v-if="item.icon === 'dashboard'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                 <svg v-else-if="item.icon === 'film'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18M17 3v18M3 7.5h4M3 12h18M3 16.5h4M17 7.5h4M17 16.5h4"/></svg>
+                <svg v-else-if="item.icon === 'bookmark'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
                 <svg v-else-if="item.icon === 'users'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <svg v-else-if="item.icon === 'message'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                <svg v-else-if="item.icon === 'pulse'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 <svg v-else-if="item.icon === 'megaphone'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                <svg v-else-if="item.icon === 'grid'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                <svg v-else-if="item.icon === 'inbox'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
                 <svg v-else-if="item.icon === 'sparkle'" viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M12 2l1.7 4.7L18 8.4l-4.3 1.7L12 14.8l-1.7-4.7L6 8.4l4.3-1.7z"/></svg>
                 <svg v-else-if="item.icon === 'flag'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
                 <svg v-else-if="item.icon === 'chart'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>
+                <svg v-else-if="item.icon === 'pulse'" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               </span>
               <span>{{ item.label }}</span>
             </RouterLink>

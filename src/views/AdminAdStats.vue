@@ -135,7 +135,7 @@ watch(() => route.params.id, load);
                  :style="{ height: `${(d.clicks / maxDaily) * 100}%`, minHeight: '2px' }"></div>
           </div>
         </div>
-        <div class="flex justify-between mt-2 mono text-[10px] text-bone-300/80">
+        <div class="flex justify-between mt-2 mono text-[10px] text-bone-300">
           <span>{{ sparkDays[0]?.day.slice(5) }}</span>
           <span>{{ sparkDays.at(-1)?.day.slice(5) }}</span>
         </div>
