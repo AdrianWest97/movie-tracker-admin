@@ -63,6 +63,43 @@ async function load() {
 }
 
 onMounted(load);
+
+// ── Seed sample data ────────────────────────────────────────────────────────
+// Bounded to fresh/empty databases. The backend refuses past 10 movies so the
+// UI guard is just for affordance; the button still surfaces during a sparse
+// catalogue.
+const SEED_VISIBLE_THRESHOLD = 10;
+const seedDialogOpen = ref(false);
+const seedConfirmText = ref('');
+const seeding = ref(false);
+const seedResult = ref(null);
+const seedError = ref(null);
+
+const showSeedCard = computed(() =>
+  !loading.value && data.value && (data.value.totals.movies ?? 0) < SEED_VISIBLE_THRESHOLD
+);
+
+function openSeed() {
+  seedConfirmText.value = '';
+  seedResult.value = null;
+  seedError.value = null;
+  seedDialogOpen.value = true;
+}
+
+async function confirmSeed() {
+  if (seedConfirmText.value !== 'seed') return;
+  seeding.value = true;
+  seedError.value = null;
+  try {
+    const { data: res } = await api.post('/admin/seed', { confirm: 'seed' });
+    seedResult.value = res.summary;
+    await load(); // refresh stats so the card hides once seeded
+  } catch (err) {
+    seedError.value = err.response?.data?.error || 'Seed failed';
+  } finally {
+    seeding.value = false;
+  }
+}
 </script>
 
 <template>
@@ -102,6 +139,63 @@ onMounted(load);
           <div class="eyebrow">AI requests</div>
           <div class="display text-3xl font-semibold mt-2 tabular-nums text-amber-accent">{{ data.totals.aiSearches + data.totals.aiRecommendations }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.aiSearches }} searches · {{ data.totals.aiRecommendations }} recs</div>
+        </div>
+      </div>
+
+      <!-- Seed sample data — only surfaces while the catalogue is sparse.
+           Guard rails are server-side (typed confirm + ≤10 movies). -->
+      <div
+        v-if="showSeedCard"
+        class="card mt-6 p-6 grid sm:grid-cols-[1fr_auto] items-center gap-4"
+      >
+        <div>
+          <div class="eyebrow text-amber-accent">— Demo data</div>
+          <h2 class="display text-2xl mt-1 leading-tight">Seed the catalogue</h2>
+          <p class="text-sm text-bone-300 mt-2 max-w-2xl leading-relaxed">
+            Populate the database with 25 sample films, 8 cinephile users, 32 reviews, and 5 example ads.
+            Idempotent — re-running won't duplicate rows. Disabled once the catalogue exceeds 10 films.
+          </p>
+        </div>
+        <button @click="openSeed" class="btn-primary shrink-0">Seed sample data</button>
+      </div>
+
+      <!-- Seed confirm dialog — typed "seed" required. -->
+      <div
+        v-if="seedDialogOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-950/70 backdrop-blur-sm"
+        @click.self="seedDialogOpen = false"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="card max-w-md w-full p-6 animate-fade-up">
+          <div class="eyebrow text-amber-accent">— Confirm</div>
+          <h3 class="display text-xl font-semibold mt-1">Seed sample data?</h3>
+          <p class="text-sm text-bone-300 mt-2 leading-relaxed">
+            This adds demo films, users, reviews, and ads. It's idempotent and bounded
+            (won't run if the catalogue already has more than 10 films). To proceed,
+            type <span class="mono text-amber-accent">seed</span> below.
+          </p>
+          <input
+            v-model="seedConfirmText"
+            placeholder="seed"
+            class="input mt-4 w-full"
+            autofocus
+            @keyup.enter="confirmSeed"
+          />
+          <div v-if="seedError" class="text-sm text-red-400 mt-3">{{ seedError }}</div>
+          <div v-if="seedResult" class="text-sm text-bone-50 mt-3 mono">
+            Inserted: {{ seedResult.movies }} movies · {{ seedResult.users }} users ·
+            {{ seedResult.reviews }} reviews · {{ seedResult.ads }} ads
+          </div>
+          <div class="mt-5 flex justify-end gap-2">
+            <button @click="seedDialogOpen = false" class="btn-secondary">{{ seedResult ? 'Done' : 'Cancel' }}</button>
+            <button
+              v-if="!seedResult"
+              @click="confirmSeed"
+              :disabled="seedConfirmText !== 'seed' || seeding"
+              class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            >{{ seeding ? 'Seeding…' : 'Confirm seed' }}</button>
+          </div>
         </div>
       </div>
 
