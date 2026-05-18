@@ -138,7 +138,7 @@ onMounted(load);
     <div v-if="loading" class="card p-8 text-center text-bone-300">Loading…</div>
     <div v-else-if="ads.length === 0" class="card p-14 text-center">
       <p class="display text-2xl mb-2">No ads yet.</p>
-      <p class="text-bone-300 text-sm">Create one to start selling placement on Reel.</p>
+      <p class="text-bone-300 text-sm">Create one to start selling placement on Adrian&rsquo;s Cut.</p>
       <button @click="openCreate" class="btn-primary mt-5 inline-flex">Create the first ad</button>
     </div>
 

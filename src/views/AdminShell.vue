@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { RouterView, RouterLink, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth.js';
+import Wordmark from '../components/Wordmark.vue';
 
 const auth = useAuthStore();
 const route = useRoute();
@@ -47,7 +48,7 @@ async function logout() {
           <span class="w-7 h-7 rounded-md bg-amber-accent/15 text-amber-accent flex items-center justify-center">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5L22 10l-5 4.5L18 22l-6-3.5L6 22l1-7.5L2 10l7-1.5z"/></svg>
           </span>
-          <span class="display text-xl font-semibold">Reel</span>
+          <Wordmark size="md" />
           <span class="hidden sm:inline-block h-4 w-px bg-ink-700"></span>
           <span class="hidden sm:inline eyebrow text-amber-accent">— admin console</span>
         </RouterLink>

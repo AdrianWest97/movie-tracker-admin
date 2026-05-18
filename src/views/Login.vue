@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth.js';
+import Wordmark from '../components/Wordmark.vue';
 
 const email = ref('');
 const password = ref('');
@@ -42,7 +43,7 @@ async function submit() {
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5L22 10l-5 4.5L18 22l-6-3.5L6 22l1-7.5L2 10l7-1.5z"/></svg>
         </span>
         <div>
-          <div class="display text-2xl font-semibold leading-none">Reel</div>
+          <div class="leading-none"><Wordmark size="md" /></div>
           <div class="eyebrow text-amber-accent leading-none mt-1">— admin console</div>
         </div>
       </div>
@@ -72,7 +73,7 @@ async function submit() {
 
       <p class="text-[11px] text-bone-300/70 mt-8 leading-relaxed">
         Looking for the main app?
-        <a :href="`http://${typeof location !== 'undefined' ? location.hostname : 'localhost'}:5173`" class="text-amber-accent hover:underline">Open Reel →</a>
+        <a :href="`http://${typeof location !== 'undefined' ? location.hostname : 'localhost'}:5173`" class="text-amber-accent hover:underline">Open Adrian&rsquo;s Cut →</a>
       </p>
     </div>
   </div>
