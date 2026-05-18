@@ -179,7 +179,7 @@ async function confirmSeed() {
             v-model="seedConfirmText"
             type="text"
             placeholder="seed"
-            class="form-input mono mt-4 w-full"
+            class="field mono mt-4 w-full"
             autofocus
             @keyup.enter="confirmSeed"
           />
