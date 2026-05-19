@@ -13,18 +13,12 @@ const toastRef = useTemplateRef('toast');
 
 // Active selection + the editable form for whichever provider is active.
 // Other providers stay configured in the backend but aren't shown here.
-const provider = ref('anthropic');
+const provider = ref('groq');
 const model = ref('');
 const apiKey = ref('');
 const clearKey = ref(false);
 
 const PROVIDERS = {
-  anthropic: {
-    label: 'Anthropic Claude',
-    blurb: 'Commercial, low latency, strong reasoning. Best default for production.',
-    configKey: 'anthropic',
-    models: ['claude-3-5-haiku-latest', 'claude-3-5-sonnet-latest', 'claude-opus-4-20250514']
-  },
   groq: {
     label: 'Groq (open-source)',
     blurb: 'Hosted Llama / Mixtral on Groq LPU. Extreme throughput, generous free tier, earns OSS bonus marks.',
@@ -72,12 +66,8 @@ async function save() {
     // Backend expects all three model + key slots so it can store per-provider
     // state. We only mutate the active one and leave the rest alone (empty
     // string = "no change" per the backend's merge logic).
-    const keyField = provider.value === 'huggingface' ? 'hfApiKey'
-                   : provider.value === 'groq'        ? 'groqApiKey'
-                                                      : 'anthropicApiKey';
-    const modelField = provider.value === 'huggingface' ? 'hfModel'
-                     : provider.value === 'groq'        ? 'groqModel'
-                                                        : 'anthropicModel';
+    const keyField   = provider.value === 'huggingface' ? 'hfApiKey'   : 'groqApiKey';
+    const modelField = provider.value === 'huggingface' ? 'hfModel'    : 'groqModel';
 
     const payload = {
       provider: provider.value,
@@ -128,7 +118,7 @@ onMounted(load);
       <!-- Provider picker -->
       <section class="mb-6">
         <div class="eyebrow mb-3">— Provider</div>
-        <div class="grid sm:grid-cols-3 gap-3">
+        <div class="grid sm:grid-cols-2 gap-3">
           <label
             v-for="(info, key) in PROVIDERS" :key="key"
             :class="['cursor-pointer card-flat p-4 transition-all border',
