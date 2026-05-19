@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth.js';
 import Wordmark from '../components/Wordmark.vue';
+import { useRecaptcha } from '../composables/useRecaptcha.js';
 
 const email = ref('');
 const password = ref('');
@@ -12,15 +13,22 @@ const loading = ref(false);
 const auth = useAuthStore();
 const router = useRouter();
 const route = useRoute();
+const { containerRef: recaptchaEl, getToken: getRecaptchaToken, reset: resetRecaptcha, disabled: recaptchaDisabled } = useRecaptcha();
 
 async function submit() {
   error.value = '';
+  const token = getRecaptchaToken();
+  if (!recaptchaDisabled && !token) {
+    error.value = 'Please confirm you are not a robot.';
+    return;
+  }
   loading.value = true;
   try {
-    await auth.login(email.value, password.value);
+    await auth.login(email.value, password.value, token);
     router.push(route.query.redirect?.toString() || '/');
   } catch (e) {
     error.value = e.response?.data?.error || e.message || 'Sign-in failed';
+    resetRecaptcha();
   } finally {
     loading.value = false;
   }
@@ -61,6 +69,8 @@ async function submit() {
           <label class="label" for="password">Password</label>
           <input id="password" v-model="password" type="password" required class="field" autocomplete="current-password" />
         </div>
+
+        <div v-show="!recaptchaDisabled" ref="recaptchaEl" class="flex justify-center"></div>
 
         <div v-if="error" class="text-sm text-ruby-400 bg-ruby-700/10 border border-ruby-700/30 rounded-md px-3 py-2">
           {{ error }}

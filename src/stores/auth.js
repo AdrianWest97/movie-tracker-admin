@@ -11,8 +11,8 @@ export const useAuthStore = defineStore('admin-auth', {
     isAdmin: (s) => s.user?.role === 'admin'
   },
   actions: {
-    async login(email, password) {
-      const { data } = await api.post('/auth/login', { email, password });
+    async login(email, password, recaptchaToken) {
+      const { data } = await api.post('/auth/login', { email, password, recaptchaToken });
       if (data.user?.role !== 'admin') {
         // Don't persist a non-admin session in the admin app.
         throw new Error('This account does not have admin access.');

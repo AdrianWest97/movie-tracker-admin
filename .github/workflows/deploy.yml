@@ -27,7 +27,10 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
-      - run: npm run build
+      - name: Build with reCAPTCHA site key
+        env:
+          VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
+        run: npm run build
       - uses: actions/upload-artifact@v4
         with:
           name: admin-dist
@@ -45,7 +48,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci && npm run build
+      - run: npm ci
+      - name: Build with reCAPTCHA site key
+        env:
+          VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
+        run: npm run build
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
