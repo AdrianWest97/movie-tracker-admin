@@ -72,6 +72,13 @@ async function submit() {
         <button type="submit" :disabled="loading" class="btn-primary btn-lg w-full">
           {{ loading ? 'Signing in…' : 'Sign in to admin' }}
         </button>
+
+        <p class="recaptcha-tos">
+          Protected by reCAPTCHA —
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
+          ·
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms</a>
+        </p>
       </form>
 
       <p class="text-[11px] text-bone-300 mt-8 leading-relaxed">
