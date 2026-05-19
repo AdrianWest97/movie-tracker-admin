@@ -1,5 +1,6 @@
-// reCAPTCHA v3 — invisible, action-scored. See public-frontend twin for
-// usage docs; keep both files in lockstep.
+// reCAPTCHA v3 twin of the public-frontend composable — keep in lockstep.
+// Loads the SDK eagerly so Google's badge renders as soon as the form
+// mounts, not only on the first submit.
 
 let scriptPromise = null;
 function loadScript(siteKey) {
@@ -29,6 +30,10 @@ function loadScript(siteKey) {
 export function useRecaptcha() {
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
   const disabled = !siteKey;
+
+  if (!disabled) {
+    loadScript(siteKey).catch(err => console.warn('[recaptcha]', err.message));
+  }
 
   async function execute(action) {
     if (disabled) return '';
