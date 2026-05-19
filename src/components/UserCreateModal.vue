@@ -11,20 +11,17 @@ const form = reactive({
   email: '',
   displayName: '',
   role: 'user',
-  password: '',
   sendWelcomeEmail: true
 });
 const error = ref('');
 const submitting = ref(false);
-const result = ref(null); // { user, generatedPassword }
+const result = ref(null); // { user }
 
 async function submit() {
   error.value = '';
   submitting.value = true;
   try {
-    const body = { ...form };
-    if (!body.password) delete body.password;  // server generates one
-    const { data } = await api.post('/admin/users', body);
+    const { data } = await api.post('/admin/users', { ...form });
     result.value = data;
     emit('created', data);
   } catch (e) {
@@ -71,14 +68,13 @@ async function submit() {
                 <option value="admin">Admin</option>
               </select>
             </div>
-            <div>
-              <label class="label">Password (leave blank to auto-generate)</label>
-              <input v-model="form.password" type="text" minlength="8" maxlength="128" class="field font-mono text-sm" placeholder="Auto-generate if blank" />
-            </div>
             <label class="inline-flex items-center gap-2 text-sm text-bone-200">
               <input type="checkbox" v-model="form.sendWelcomeEmail" class="accent-amber-accent w-4 h-4" />
-              Send welcome email with sign-in details
+              Send a password-set link to the user
             </label>
+            <p class="text-[11px] text-bone-300 leading-relaxed">
+              The user receives a one-hour reset link and chooses their own password. No temporary password is ever generated or transmitted.
+            </p>
 
             <div v-if="error" class="text-sm text-ruby-400 bg-ruby-700/10 border border-ruby-700/30 rounded-md px-3 py-2">{{ error }}</div>
 
@@ -94,18 +90,10 @@ async function submit() {
           <p class="text-bone-300 text-sm mb-5">
             {{ result.user.displayName }} ({{ result.user.email }}) is set up as <span class="text-bone-50">{{ result.user.role }}</span>.
           </p>
-          <div v-if="result.generatedPassword" class="card-flat p-4 mb-5">
-            <div class="eyebrow mb-2">— Temporary password</div>
-            <div class="font-mono text-amber-accent text-lg break-all">{{ result.generatedPassword }}</div>
-            <p class="text-[11px] text-bone-300 mt-2 leading-relaxed">
-              {{ form.sendWelcomeEmail
-                  ? 'Also emailed to the user. They should change it after first sign-in.'
-                  : 'Copy this now — it will NOT be shown again.' }}
-            </p>
-          </div>
-          <p v-else class="text-sm text-bone-300 mb-5">
-            They can sign in with the password you provided. Welcome email
-            {{ form.sendWelcomeEmail ? 'sent.' : 'not sent.' }}
+          <p class="text-sm text-bone-300 mb-5">
+            {{ form.sendWelcomeEmail
+                ? 'A one-hour password-set link has been emailed to them. They\'ll sign in once they\'ve chosen a password.'
+                : 'No email sent. Send them a reset link via the user actions menu when they\'re ready.' }}
           </p>
           <button @click="emit('close')" class="btn-primary w-full">Done</button>
         </template>
