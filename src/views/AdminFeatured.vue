@@ -102,7 +102,7 @@ onMounted(load);
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
       <div>
         <div class="eyebrow mb-2 text-amber-accent">— Curation</div>
-        <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Featured films</h1>
+        <h1 class="display text-4xl sm:text-5xl leading-tight">Featured films</h1>
         <p class="text-bone-300 mt-2 text-sm">
           Pick the films that rotate through the cinematic hero on the public Discover page.
           When this list is empty, the hero falls back to the top-rated films.

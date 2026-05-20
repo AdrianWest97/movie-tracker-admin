@@ -154,8 +154,8 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 max-w-5xl">
     <div class="mb-8">
-      <div class="eyebrow mb-2 text-amber-accent">— Cross-user · Append-only · UTC</div>
-      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Site activity</h1>
+      <div class="eyebrow mb-2 text-amber-accent">Cross-user · Append-only · UTC</div>
+      <h1 class="display text-4xl sm:text-5xl leading-tight">Site activity</h1>
       <p class="text-bone-300 mt-2 text-sm">Every event across every user, including admin actions. Immutable by DB trigger.</p>
     </div>
 

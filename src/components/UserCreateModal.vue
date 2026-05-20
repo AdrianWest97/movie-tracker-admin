@@ -51,7 +51,7 @@ async function submit() {
         </div>
 
         <template v-if="!result">
-          <h2 class="display text-3xl font-semibold mb-6">Create an account</h2>
+          <h2 class="display text-3xl font-medium mb-6">Create an account</h2>
           <form @submit.prevent="submit" class="space-y-4">
             <div>
               <label class="label">Email</label>
@@ -86,7 +86,7 @@ async function submit() {
         </template>
 
         <template v-else>
-          <h2 class="display text-3xl font-semibold mb-2">User created.</h2>
+          <h2 class="display text-3xl font-medium mb-2">User created.</h2>
           <p class="text-bone-300 text-sm mb-5">
             {{ result.user.displayName }} ({{ result.user.email }}) is set up as <span class="text-bone-50">{{ result.user.role }}</span>.
           </p>

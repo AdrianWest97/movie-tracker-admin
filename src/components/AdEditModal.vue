@@ -156,7 +156,7 @@ async function submit() {
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </button>
         </div>
-        <h2 class="display text-3xl font-semibold mb-6">{{ isEdit ? form.headline || 'Edit ad' : 'Create an ad' }}</h2>
+        <h2 class="display text-3xl font-medium mb-6">{{ isEdit ? form.headline || 'Edit ad' : 'Create an ad' }}</h2>
 
         <div class="grid lg:grid-cols-[1fr_minmax(0,300px)] gap-8">
           <!-- Form -->

@@ -67,8 +67,8 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 max-w-5xl">
     <div class="mb-8">
-      <div class="eyebrow mb-2 text-amber-accent">— Content moderation</div>
-      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Reviews</h1>
+      <div class="eyebrow mb-2 text-amber-accent">Content moderation</div>
+      <h1 class="display text-4xl sm:text-5xl leading-tight">Reviews</h1>
       <p class="text-bone-300 mt-2 text-sm">
         Hidden reviews stay in the database — the author's rating is preserved — but they're suppressed
         from public share links and aggregate stats.

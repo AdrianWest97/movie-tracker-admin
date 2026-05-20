@@ -36,12 +36,14 @@ export default {
         }
       },
       fontFamily: {
-        display: ['"Fraunces"', 'Georgia', 'serif'],
+        display: ['"Inter Tight"', '"Inter"', 'system-ui', 'sans-serif'],
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
       },
       letterSpacing: {
-        eyebrow: '0.22em'
+        eyebrow: '0.22em',
+        display: '-0.025em',
+        'display-tight': '-0.035em'
       },
       boxShadow: {
         poster: '0 30px 60px -25px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.04)',

@@ -105,8 +105,8 @@ async function confirmSeed() {
 <template>
   <div class="p-6 lg:p-10">
     <div class="mb-10">
-      <div class="eyebrow mb-2 text-amber-accent">— Site overview</div>
-      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Dashboard</h1>
+      <div class="eyebrow mb-2 text-amber-accent">Site overview</div>
+      <h1 class="display text-4xl sm:text-5xl leading-tight">Dashboard</h1>
       <p class="text-bone-300 mt-2 text-sm">Real-time snapshot of users, catalogue, and AI usage.</p>
     </div>
 
@@ -122,22 +122,22 @@ async function confirmSeed() {
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div class="card-flat p-5">
           <div class="eyebrow">Users</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.users }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.users }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.admins }} admin · {{ data.totals.suspended }} suspended</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Films in catalogue</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.movies - data.totals.archivedMovies }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.movies - data.totals.archivedMovies }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.archivedMovies }} archived</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Ratings submitted</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.ratings }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.ratings }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.hiddenReviews }} review{{ data.totals.hiddenReviews === 1 ? '' : 's' }} hidden</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">AI requests</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums text-amber-accent">{{ data.totals.aiSearches + data.totals.aiRecommendations }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums text-amber-accent">{{ data.totals.aiSearches + data.totals.aiRecommendations }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.aiSearches }} searches · {{ data.totals.aiRecommendations }} recs</div>
         </div>
       </div>
@@ -149,7 +149,7 @@ async function confirmSeed() {
         class="card mt-6 p-6 grid sm:grid-cols-[1fr_auto] items-center gap-4"
       >
         <div>
-          <div class="eyebrow text-amber-accent">— Demo data</div>
+          <div class="eyebrow text-amber-accent">Demo data</div>
           <h2 class="display text-2xl mt-1 leading-tight">Seed the catalogue</h2>
           <p class="text-sm text-bone-300 mt-2 max-w-2xl leading-relaxed">
             Populate the database with 25 sample films, 8 cinephile users, 32 reviews, and 5 example ads.
@@ -168,8 +168,8 @@ async function confirmSeed() {
         aria-modal="true"
       >
         <div class="card max-w-md w-full p-6 animate-fade-up">
-          <div class="eyebrow text-amber-accent">— Confirm</div>
-          <h3 class="display text-xl font-semibold mt-1">Seed sample data?</h3>
+          <div class="eyebrow text-amber-accent">Confirm</div>
+          <h3 class="display text-xl font-medium mt-1">Seed sample data?</h3>
           <p class="text-sm text-bone-300 mt-2 leading-relaxed">
             This adds demo films, users, reviews, and ads. It's idempotent and bounded
             (won't run if the catalogue already has more than 10 films). To proceed,

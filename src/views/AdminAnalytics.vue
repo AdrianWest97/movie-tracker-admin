@@ -22,7 +22,7 @@ onMounted(load);
   <div class="p-6 lg:p-10 max-w-4xl">
     <div class="mb-8">
       <div class="eyebrow mb-2 text-amber-accent">— Last 30 days</div>
-      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Search analytics</h1>
+      <h1 class="display text-4xl sm:text-5xl leading-tight">Search analytics</h1>
       <p class="text-bone-300 mt-2 text-sm">What users are searching for, and where they're coming up empty.</p>
     </div>
 
@@ -32,19 +32,19 @@ onMounted(load);
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
         <div class="card-flat p-5">
           <div class="eyebrow">Text searches</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.topQueries.reduce((s, q) => s + q.count, 0) }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.topQueries.reduce((s, q) => s + q.count, 0) }}</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">AI searches</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums text-amber-accent">{{ data.aiSearches }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums text-amber-accent">{{ data.aiSearches }}</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Chat messages</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.chatMessages }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.chatMessages }}</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Zero-result queries</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums text-ruby-400">{{ data.zeroResultQueries.length }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums text-ruby-400">{{ data.zeroResultQueries.length }}</div>
         </div>
       </div>
 

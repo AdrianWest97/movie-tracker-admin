@@ -76,8 +76,8 @@ onMounted(load);
   <div class="p-6 lg:p-10 space-y-8">
     <header class="flex items-end justify-between gap-4">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">— Inventory</div>
-        <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Slots</h1>
+        <div class="eyebrow mb-2 text-amber-accent">Inventory</div>
+        <h1 class="display text-4xl sm:text-5xl leading-tight">Slots</h1>
         <p class="text-sm text-bone-300 mt-3 max-w-xl leading-relaxed">
           Define ad slots, set pricing, and toggle availability. Slots flow through to the
           <RouterLink to="/ad-requests" class="underline-offset-2 hover:text-amber-accent">ad-request</RouterLink> review queue.
@@ -172,7 +172,7 @@ onMounted(load);
 <style scoped>
 .kpi { background: theme('colors.ink.900'); border: 1px solid theme('colors.ink.800'); border-radius: 10px; padding: 14px 16px; }
 .kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: theme('colors.bone.300'); }
-.kpi-value { font-size: 22px; font-weight: 500; color: theme('colors.bone.50'); margin-top: 4px; font-family: 'Fraunces', Georgia, serif; }
+.kpi-value { font-size: 22px; font-weight: 300; color: theme('colors.bone.50'); margin-top: 4px; font-family: theme('fontFamily.display'); letter-spacing: -0.02em; }
 
 .toggle-pill {
   display: inline-block;

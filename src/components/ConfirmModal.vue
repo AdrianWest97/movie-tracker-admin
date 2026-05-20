@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
       aria-modal="true"
     >
       <div class="card max-w-sm w-full p-6 animate-fade-up">
-        <h3 class="display text-xl font-semibold">{{ title }}</h3>
+        <h3 class="display text-xl font-medium">{{ title }}</h3>
         <p v-if="body" class="text-sm text-bone-300 mt-2 leading-relaxed">{{ body }}</p>
         <div class="flex items-center justify-end gap-2 mt-6">
           <button class="btn-secondary" @click="emit('cancel')">{{ cancelLabel }}</button>

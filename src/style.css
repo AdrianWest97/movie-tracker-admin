@@ -132,10 +132,23 @@
     @apply text-[11px] uppercase tracking-eyebrow font-medium text-bone-300;
   }
 
-  /* Typographic */
+  /* Typographic.
+     Mirrors the public frontend's restrained display token — Inter Tight
+     at weight 300, tracking compressing as size grows. The admin's tables
+     and forms benefit from the same Apple-light hierarchy: page titles
+     read as quiet labels above the content rather than competing with it. */
   .display {
     font-family: theme('fontFamily.display');
-    font-feature-settings: 'ss01', 'ss02';
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
+  .display.text-4xl,
+  .display.text-5xl,
+  .display.text-6xl,
+  .display.text-7xl,
+  .display.text-8xl,
+  .display.text-9xl {
+    letter-spacing: -0.035em;
   }
   .mono {
     font-family: theme('fontFamily.mono');

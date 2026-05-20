@@ -188,8 +188,8 @@ const previewGenres = computed(() => parseList(form.genres).slice(0, 3));
       </RouterLink>
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <div class="eyebrow mb-2 text-amber-accent">{{ isNew ? '— New film' : '— Edit film' }}</div>
-          <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">
+          <div class="eyebrow mb-2 text-amber-accent">{{ isNew ? 'New film' : 'Edit film' }}</div>
+          <h1 class="display text-4xl sm:text-5xl leading-tight">
             {{ isNew ? 'Add a film' : (form.title || 'Edit film') }}
           </h1>
         </div>

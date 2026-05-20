@@ -71,7 +71,7 @@ watch(() => route.params.id, load);
           <div class="eyebrow mb-2 text-amber-accent">
             — Sponsored by {{ data.ad.advertiser }}
           </div>
-          <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">{{ data.ad.headline }}</h1>
+          <h1 class="display text-4xl sm:text-5xl leading-tight">{{ data.ad.headline }}</h1>
           <p v-if="data.ad.body" class="text-bone-300 mt-2 max-w-2xl">{{ data.ad.body }}</p>
           <div class="flex flex-wrap items-center gap-3 mt-4 text-[11px] text-bone-300">
             <span class="chip">{{ FORMAT_LABEL[data.ad.format] || data.ad.format }}</span>
@@ -89,27 +89,27 @@ watch(() => route.params.id, load);
       <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
         <div class="card-flat p-5">
           <div class="eyebrow">Impressions</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.impressions }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.impressions }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.uniqueImpressions }} unique</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Clicks</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.clicks }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.clicks }}</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.uniqueClicks }} unique</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">CTR</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums text-amber-accent">{{ data.totals.ctr }}%</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums text-amber-accent">{{ data.totals.ctr }}%</div>
           <div class="text-[11px] text-bone-300 mt-1">{{ data.totals.uniqueCtr }}% unique-CTR</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Authed views</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.authedImpressions }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.authedImpressions }}</div>
           <div class="text-[11px] text-bone-300 mt-1">signed-in users</div>
         </div>
         <div class="card-flat p-5">
           <div class="eyebrow">Anon views</div>
-          <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ data.totals.anonImpressions }}</div>
+          <div class="display text-3xl font-light mt-2 tabular-nums">{{ data.totals.anonImpressions }}</div>
           <div class="text-[11px] text-bone-300 mt-1">visitors</div>
         </div>
       </div>

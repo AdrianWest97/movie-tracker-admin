@@ -135,7 +135,7 @@ onMounted(load);
     <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
       <div>
         <div class="eyebrow mb-2 text-amber-accent">— People</div>
-        <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Users</h1>
+        <h1 class="display text-4xl sm:text-5xl leading-tight">Users</h1>
         <p class="text-bone-300 mt-2 text-sm">Create accounts, promote admins, reset passwords, suspend bad actors.</p>
       </div>
       <button @click="showCreate = true" class="btn-primary self-start sm:self-auto">

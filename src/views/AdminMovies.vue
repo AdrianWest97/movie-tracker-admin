@@ -78,8 +78,8 @@ onMounted(load);
   <div class="p-6 lg:p-10">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-8">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">— Catalogue</div>
-        <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Films</h1>
+        <div class="eyebrow mb-2 text-amber-accent">Catalogue</div>
+        <h1 class="display text-4xl sm:text-5xl leading-tight">Films</h1>
         <p class="text-bone-300 mt-2 text-sm">Add, edit, archive and delete films in the master catalogue.</p>
       </div>
       <button @click="openCreate" class="btn-primary">

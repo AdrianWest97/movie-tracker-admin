@@ -105,7 +105,7 @@ onMounted(load);
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
       <div>
         <div class="eyebrow mb-2 text-amber-accent">— Inventory</div>
-        <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Ads</h1>
+        <h1 class="display text-4xl sm:text-5xl leading-tight">Ads</h1>
         <p class="text-bone-300 mt-2 text-sm">Sell placement on the public catalogue. Define slot, schedule, target URL, and track performance.</p>
       </div>
       <button @click="openCreate" class="btn-primary">
@@ -118,20 +118,20 @@ onMounted(load);
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
       <div class="card-flat p-5">
         <div class="eyebrow">Total ads</div>
-        <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ aggregate.total }}</div>
+        <div class="display text-3xl font-light mt-2 tabular-nums">{{ aggregate.total }}</div>
         <div class="text-[11px] text-bone-300 mt-1">{{ aggregate.active }} active</div>
       </div>
       <div class="card-flat p-5">
         <div class="eyebrow">Impressions</div>
-        <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ aggregate.impressions }}</div>
+        <div class="display text-3xl font-light mt-2 tabular-nums">{{ aggregate.impressions }}</div>
       </div>
       <div class="card-flat p-5">
         <div class="eyebrow">Clicks</div>
-        <div class="display text-3xl font-semibold mt-2 tabular-nums">{{ aggregate.clicks }}</div>
+        <div class="display text-3xl font-light mt-2 tabular-nums">{{ aggregate.clicks }}</div>
       </div>
       <div class="card-flat p-5">
         <div class="eyebrow">CTR</div>
-        <div class="display text-3xl font-semibold mt-2 tabular-nums text-amber-accent">{{ aggregate.ctr }}%</div>
+        <div class="display text-3xl font-light mt-2 tabular-nums text-amber-accent">{{ aggregate.ctr }}%</div>
       </div>
     </div>
 

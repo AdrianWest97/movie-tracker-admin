@@ -52,7 +52,7 @@ async function submit() {
       </div>
 
       <div class="eyebrow mb-3">— Restricted access</div>
-      <h1 class="display text-4xl font-semibold mb-2 leading-tight">Sign in.</h1>
+      <h1 class="display text-4xl mb-2 leading-tight">Sign in.</h1>
       <p class="text-bone-300 mb-8 text-sm">This area is for site administrators only. User accounts cannot sign in here.</p>
 
       <form @submit.prevent="submit" class="space-y-4">

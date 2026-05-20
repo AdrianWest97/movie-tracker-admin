@@ -45,8 +45,8 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 max-w-3xl">
     <div class="mb-8">
-      <div class="eyebrow mb-2 text-amber-accent">— Runtime switches</div>
-      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">Feature flags</h1>
+      <div class="eyebrow mb-2 text-amber-accent">Runtime switches</div>
+      <h1 class="display text-4xl sm:text-5xl leading-tight">Feature flags</h1>
       <p class="text-bone-300 mt-2 text-sm">Toggle features on and off without redeploying. Changes are immediate and audit-logged.</p>
     </div>
 

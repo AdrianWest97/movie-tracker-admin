@@ -86,8 +86,8 @@ const a = computed(() => ({
         <div class="absolute inset-0 bg-gradient-to-r from-ink-950/95 via-ink-950/70 to-ink-950/10"></div>
         <div class="relative z-10 h-full flex flex-col justify-between p-6 sm:p-8 max-w-[60%]">
           <div>
-            <div class="eyebrow text-amber-accent">— Sponsored · {{ a.advertiser }}</div>
-            <h3 class="display text-2xl sm:text-3xl font-semibold leading-tight mt-2 text-bone-50">{{ a.headline }}</h3>
+            <div class="eyebrow text-amber-accent">Sponsored · {{ a.advertiser }}</div>
+            <h3 class="display text-2xl sm:text-3xl font-medium leading-tight mt-2 text-bone-50">{{ a.headline }}</h3>
             <p v-if="a.body" class="text-sm text-bone-200 mt-2 leading-relaxed line-clamp-2">{{ a.body }}</p>
           </div>
           <div class="text-xs text-amber-accent inline-flex items-center gap-1.5 self-start">

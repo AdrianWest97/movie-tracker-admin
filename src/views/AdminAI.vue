@@ -106,7 +106,7 @@ onMounted(load);
   <div class="p-6 lg:p-10 max-w-3xl">
     <div class="mb-8">
       <div class="eyebrow mb-2 text-amber-accent">— Intelligence</div>
-      <h1 class="display text-4xl sm:text-5xl font-semibold leading-tight">AI provider</h1>
+      <h1 class="display text-4xl sm:text-5xl leading-tight">AI provider</h1>
       <p class="text-bone-300 mt-2 text-sm max-w-xl">
         Pick the model that powers recommendations, natural-language search and the chatbot. Settings here override the bootstrap values from <code class="text-bone-100 bg-ink-800 px-1 py-0.5 rounded text-[11px]">backend/.env</code>.
       </p>
