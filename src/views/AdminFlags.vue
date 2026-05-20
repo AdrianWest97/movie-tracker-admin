@@ -45,9 +45,9 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 max-w-3xl">
     <div class="mb-8">
-      <div class="eyebrow mb-2 text-amber-accent">Runtime switches</div>
-      <h1 class="display text-4xl sm:text-5xl leading-tight">Feature flags</h1>
-      <p class="text-bone-300 mt-2 text-sm">Toggle features on and off without redeploying. Changes are immediate and audit-logged.</p>
+      <div class="eyebrow mb-3 text-amber-accent">— Runtime</div>
+      <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Feature flags</h1>
+      <p class="text-bone-300 mt-3 text-sm leading-relaxed">Toggle features on and off without redeploying. Changes are immediate and audit-logged.</p>
     </div>
 
     <div v-if="loading" class="card p-8 text-center text-bone-300">Loading…</div>

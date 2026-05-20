@@ -109,8 +109,11 @@ async function load() {
   loading.value = true;
   loadError.value = '';
   try {
-    const { data } = await api.get('/admin/movies');
-    const m = data.movies.find(x => x.id === movieId.value);
+    // Fetch only the film being edited; the /admin/movies list is now
+    // paginated and a `.find` over the first page would miss films past
+    // the default limit.
+    const { data } = await api.get(`/admin/movies/${movieId.value}`);
+    const m = data.movie;
     if (!m) {
       loadError.value = 'Film not found.';
       return;

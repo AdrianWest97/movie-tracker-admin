@@ -48,12 +48,9 @@ async function logout() {
     <header class="border-b border-ink-800/80 bg-ink-950/85 backdrop-blur-md sticky top-0 z-30">
       <div class="px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4 h-16">
         <RouterLink to="/" class="flex items-center gap-3">
-          <span class="w-7 h-7 rounded-md bg-amber-accent/15 text-amber-accent flex items-center justify-center">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5L22 10l-5 4.5L18 22l-6-3.5L6 22l1-7.5L2 10l7-1.5z"/></svg>
-          </span>
           <Wordmark size="md" />
           <span class="hidden sm:inline-block h-4 w-px bg-ink-700"></span>
-          <span class="hidden sm:inline eyebrow text-amber-accent">— admin console</span>
+          <span class="hidden sm:inline eyebrow text-amber-accent">Admin console</span>
         </RouterLink>
 
         <div class="flex items-center gap-2">

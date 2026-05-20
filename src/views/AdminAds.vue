@@ -6,9 +6,13 @@ import ConfirmModal from '../components/ConfirmModal.vue';
 import Toast from '../components/Toast.vue';
 import AdEditModal from '../components/AdEditModal.vue';
 
+const PAGE_SIZE = 100;
+
 const ads = ref([]);
 const slots = ref([]);
 const loading = ref(true);
+const loadingMore = ref(false);
+const pagination = ref({ total: 0, limit: PAGE_SIZE, offset: 0, hasMore: false });
 const editing = ref(null);
 const toDelete = ref(null);
 const toastRef = useTemplateRef('toast');
@@ -34,13 +38,27 @@ async function load() {
   loading.value = true;
   try {
     const [adsRes, slotsRes] = await Promise.all([
-      api.get('/admin/ads'),
+      api.get('/admin/ads', { params: { limit: PAGE_SIZE, offset: 0 } }),
       api.get('/admin/slots')
     ]);
     ads.value = adsRes.data.ads;
+    pagination.value = adsRes.data.pagination || { total: adsRes.data.ads.length, limit: PAGE_SIZE, offset: 0, hasMore: false };
     slots.value = slotsRes.data.slots;
   } finally {
     loading.value = false;
+  }
+}
+
+async function loadMore() {
+  if (loadingMore.value || !pagination.value.hasMore) return;
+  loadingMore.value = true;
+  try {
+    const nextOffset = pagination.value.offset + pagination.value.limit;
+    const { data } = await api.get('/admin/ads', { params: { limit: PAGE_SIZE, offset: nextOffset } });
+    ads.value = ads.value.concat(data.ads);
+    pagination.value = data.pagination || { ...pagination.value, hasMore: false };
+  } finally {
+    loadingMore.value = false;
   }
 }
 
@@ -104,8 +122,8 @@ onMounted(load);
   <div class="p-6 lg:p-10">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">— Inventory</div>
-        <h1 class="display text-4xl sm:text-5xl leading-tight">Ads</h1>
+        <div class="eyebrow mb-3 text-amber-accent">— Inventory</div>
+        <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Ads</h1>
         <p class="text-bone-300 mt-2 text-sm">Sell placement on the public catalogue. Define slot, schedule, target URL, and track performance.</p>
       </div>
       <button @click="openCreate" class="btn-primary">
@@ -207,6 +225,15 @@ onMounted(load);
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div v-if="pagination.hasMore" class="mt-6 flex justify-center">
+      <button
+        type="button"
+        class="btn-secondary btn-sm"
+        :disabled="loadingMore"
+        @click="loadMore"
+      >{{ loadingMore ? 'Loading…' : `Load more (${pagination.total - ads.length} left)` }}</button>
     </div>
 
     <AdEditModal

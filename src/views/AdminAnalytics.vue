@@ -21,9 +21,9 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 max-w-4xl">
     <div class="mb-8">
-      <div class="eyebrow mb-2 text-amber-accent">— Last 30 days</div>
-      <h1 class="display text-4xl sm:text-5xl leading-tight">Search analytics</h1>
-      <p class="text-bone-300 mt-2 text-sm">What users are searching for, and where they're coming up empty.</p>
+      <div class="eyebrow mb-3 text-amber-accent">— Last 30 days</div>
+      <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Search analytics</h1>
+      <p class="text-bone-300 mt-3 text-sm leading-relaxed">What users are searching for, and where they're coming up empty.</p>
     </div>
 
     <div v-if="loading" class="card p-8 text-center text-bone-300">Loading…</div>

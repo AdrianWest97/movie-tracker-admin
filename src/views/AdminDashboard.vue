@@ -105,9 +105,9 @@ async function confirmSeed() {
 <template>
   <div class="p-6 lg:p-10">
     <div class="mb-10">
-      <div class="eyebrow mb-2 text-amber-accent">Site overview</div>
-      <h1 class="display text-4xl sm:text-5xl leading-tight">Dashboard</h1>
-      <p class="text-bone-300 mt-2 text-sm">Real-time snapshot of users, catalogue, and AI usage.</p>
+      <div class="eyebrow mb-3 text-amber-accent">— Site overview</div>
+      <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Dashboard</h1>
+      <p class="text-bone-300 mt-3 text-sm max-w-xl leading-relaxed">A snapshot of users, catalogue, and AI usage across the platform.</p>
     </div>
 
     <div v-if="loading" class="grid grid-cols-2 lg:grid-cols-4 gap-3">

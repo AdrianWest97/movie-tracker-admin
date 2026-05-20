@@ -134,9 +134,9 @@ onMounted(load);
   <div class="p-6 lg:p-10">
     <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">— People</div>
-        <h1 class="display text-4xl sm:text-5xl leading-tight">Users</h1>
-        <p class="text-bone-300 mt-2 text-sm">Create accounts, promote admins, reset passwords, suspend bad actors.</p>
+        <div class="eyebrow mb-3 text-amber-accent">— People</div>
+        <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Users</h1>
+        <p class="text-bone-300 mt-3 text-sm leading-relaxed">Create accounts, promote admins, reset passwords, suspend bad actors.</p>
       </div>
       <button @click="showCreate = true" class="btn-primary self-start sm:self-auto">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>

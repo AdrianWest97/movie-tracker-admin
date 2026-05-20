@@ -76,8 +76,8 @@ onMounted(load);
   <div class="p-6 lg:p-10 space-y-8">
     <header class="flex items-end justify-between gap-4">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">Inventory</div>
-        <h1 class="display text-4xl sm:text-5xl leading-tight">Slots</h1>
+        <div class="eyebrow mb-3 text-amber-accent">— Inventory</div>
+        <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Slots</h1>
         <p class="text-sm text-bone-300 mt-3 max-w-xl leading-relaxed">
           Define ad slots, set pricing, and toggle availability. Slots flow through to the
           <RouterLink to="/ad-requests" class="underline-offset-2 hover:text-amber-accent">ad-request</RouterLink> review queue.

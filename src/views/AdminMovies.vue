@@ -7,24 +7,28 @@ import Toast from '../components/Toast.vue';
 
 const router = useRouter();
 
+const PAGE_SIZE = 200;
+
 const movies = ref([]);
 const loading = ref(true);
+const loadingMore = ref(false);
 const search = ref('');
 const filter = ref('active'); // 'all' | 'active' | 'archived'
+const pagination = ref({ total: 0, limit: PAGE_SIZE, offset: 0, hasMore: false });
 const toDelete = ref(null);
 const toArchive = ref(null);
 const toastRef = useTemplateRef('toast');
 
+let searchTimer = null;
+
+// Active/archived filter stays client-side: the server doesn't gate on it
+// (the admin needs to see both). Counts derive from the loaded page —
+// approximate for huge catalogues but admin tooling, not a public view.
 const filtered = computed(() => {
-  const q = search.value.trim().toLowerCase();
   return movies.value.filter(m => {
     if (filter.value === 'active' && m.isArchived) return false;
     if (filter.value === 'archived' && !m.isArchived) return false;
-    if (!q) return true;
-    return (m.title || '').toLowerCase().includes(q)
-      || (m.director || '').toLowerCase().includes(q)
-      || (m.cast || []).some(c => c.toLowerCase().includes(q))
-      || (m.genres || []).some(g => g.toLowerCase().includes(q));
+    return true;
   });
 });
 
@@ -34,14 +38,41 @@ const counts = computed(() => ({
   archived: movies.value.filter(m => m.isArchived).length
 }));
 
+function buildParams(offset = 0) {
+  const params = { limit: PAGE_SIZE, offset };
+  if (search.value.trim()) params.q = search.value.trim();
+  return params;
+}
+
 async function load() {
   loading.value = true;
   try {
-    const { data } = await api.get('/admin/movies');
+    const { data } = await api.get('/admin/movies', { params: buildParams(0) });
     movies.value = data.movies;
+    pagination.value = data.pagination || { total: data.movies.length, limit: PAGE_SIZE, offset: 0, hasMore: false };
   } finally {
     loading.value = false;
   }
+}
+
+async function loadMore() {
+  if (loadingMore.value || !pagination.value.hasMore) return;
+  loadingMore.value = true;
+  try {
+    const nextOffset = pagination.value.offset + pagination.value.limit;
+    const { data } = await api.get('/admin/movies', { params: buildParams(nextOffset) });
+    movies.value = movies.value.concat(data.movies);
+    pagination.value = data.pagination || { ...pagination.value, hasMore: false };
+  } finally {
+    loadingMore.value = false;
+  }
+}
+
+// Debounce search → server. 240ms is the same beat used in the consumer
+// app's search composable.
+function onSearchInput() {
+  if (searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => load(), 240);
 }
 
 function openCreate() { router.push({ name: 'movie-new' }); }
@@ -78,9 +109,9 @@ onMounted(load);
   <div class="p-6 lg:p-10">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-8">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">Catalogue</div>
-        <h1 class="display text-4xl sm:text-5xl leading-tight">Films</h1>
-        <p class="text-bone-300 mt-2 text-sm">Add, edit, archive and delete films in the master catalogue.</p>
+        <div class="eyebrow mb-3 text-amber-accent">— Catalogue</div>
+        <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Films</h1>
+        <p class="text-bone-300 mt-3 text-sm leading-relaxed">Add, edit, archive and delete films in the master catalogue.</p>
       </div>
       <button @click="openCreate" class="btn-primary">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
@@ -107,7 +138,7 @@ onMounted(load);
       </div>
       <div class="relative max-w-sm w-full">
         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bone-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input v-model="search" type="text" class="field !pl-10" placeholder="Search title, director, cast…" />
+        <input v-model="search" @input="onSearchInput" type="text" class="field !pl-10" placeholder="Search title, director, cast…" />
       </div>
     </div>
 
@@ -175,6 +206,15 @@ onMounted(load);
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div v-if="pagination.hasMore" class="mt-6 flex justify-center">
+      <button
+        type="button"
+        class="btn-secondary btn-sm"
+        :disabled="loadingMore"
+        @click="loadMore"
+      >{{ loadingMore ? 'Loading…' : `Load more (${pagination.total - movies.length} left)` }}</button>
     </div>
 
 

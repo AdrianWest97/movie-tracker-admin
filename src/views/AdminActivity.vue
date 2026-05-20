@@ -154,9 +154,9 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 max-w-5xl">
     <div class="mb-8">
-      <div class="eyebrow mb-2 text-amber-accent">Cross-user · Append-only · UTC</div>
-      <h1 class="display text-4xl sm:text-5xl leading-tight">Site activity</h1>
-      <p class="text-bone-300 mt-2 text-sm">Every event across every user, including admin actions. Immutable by DB trigger.</p>
+      <div class="eyebrow mb-3 text-amber-accent">— Audit log</div>
+      <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Site activity</h1>
+      <p class="text-bone-300 mt-3 text-sm leading-relaxed">Every event across every user, including admin actions. Immutable by DB trigger.</p>
     </div>
 
     <div class="flex items-center gap-1 mb-8 flex-wrap">

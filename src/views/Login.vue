@@ -41,19 +41,14 @@ async function submit() {
     </div>
 
     <div class="w-full max-w-sm">
-      <div class="mb-12 flex items-center gap-3">
-        <span class="w-8 h-8 rounded-md bg-amber-accent/15 text-amber-accent flex items-center justify-center">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5L22 10l-5 4.5L18 22l-6-3.5L6 22l1-7.5L2 10l7-1.5z"/></svg>
-        </span>
-        <div>
-          <div class="leading-none"><Wordmark size="md" /></div>
-          <div class="eyebrow text-amber-accent leading-none mt-1">— admin console</div>
-        </div>
+      <div class="mb-12">
+        <Wordmark size="md" />
+        <div class="eyebrow text-amber-accent mt-2">Admin console</div>
       </div>
 
-      <div class="eyebrow mb-3">— Restricted access</div>
-      <h1 class="display text-4xl mb-2 leading-tight">Sign in.</h1>
-      <p class="text-bone-300 mb-8 text-sm">This area is for site administrators only. User accounts cannot sign in here.</p>
+      <div class="eyebrow mb-3 text-amber-accent">— Restricted access</div>
+      <h1 class="display text-4xl font-light leading-[1.05] tracking-tight">Sign in.</h1>
+      <p class="text-bone-300 mb-8 mt-3 text-sm leading-relaxed">This area is for site administrators only. User accounts cannot sign in here.</p>
 
       <form @submit.prevent="submit" class="space-y-4">
         <div>

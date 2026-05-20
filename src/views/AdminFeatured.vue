@@ -11,19 +11,17 @@ const featured = ref([]); // ordered list of movie objects
 const initialIds = ref([]);
 const toastRef = useTemplateRef('toast');
 
+let searchTimer = null;
+
 const featuredIds = computed(() => new Set(featured.value.map(m => m.id)));
 
+// Search is now driven by the server (the /admin/movies endpoint is
+// paginated, so client-only filtering would miss films past the first
+// page). We still slice locally to 60 to keep the picker visually compact.
 const filteredCatalogue = computed(() => {
-  const q = search.value.trim().toLowerCase();
   return movies.value
     .filter(m => !m.isArchived)
-    .filter(m => {
-      if (featuredIds.value.has(m.id)) return false;
-      if (!q) return true;
-      return (m.title || '').toLowerCase().includes(q)
-        || (m.director || '').toLowerCase().includes(q)
-        || (m.cast || []).some(c => c.toLowerCase().includes(q));
-    })
+    .filter(m => !featuredIds.value.has(m.id))
     .slice(0, 60);
 });
 
@@ -36,8 +34,10 @@ const dirty = computed(() => {
 async function load() {
   loading.value = true;
   try {
+    const moviesParams = { limit: 200, offset: 0 };
+    if (search.value.trim()) moviesParams.q = search.value.trim();
     const [moviesRes, featuredRes] = await Promise.all([
-      api.get('/admin/movies'),
+      api.get('/admin/movies', { params: moviesParams }),
       api.get('/admin/featured')
     ]);
     movies.value = moviesRes.data.movies;
@@ -48,6 +48,24 @@ async function load() {
   } finally {
     loading.value = false;
   }
+}
+
+// Refresh the picker against the server when the search input changes.
+// The featured list itself is unaffected — only the candidate pool reloads.
+async function reloadCatalogue() {
+  try {
+    const params = { limit: 200, offset: 0 };
+    if (search.value.trim()) params.q = search.value.trim();
+    const { data } = await api.get('/admin/movies', { params });
+    movies.value = data.movies;
+  } catch (e) {
+    toastRef.value?.show(e.response?.data?.error || 'Search failed');
+  }
+}
+
+function onSearchInput() {
+  if (searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(reloadCatalogue, 240);
 }
 
 function addToFeatured(movie) {
@@ -101,9 +119,9 @@ onMounted(load);
   <div class="p-6 lg:p-10">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
       <div>
-        <div class="eyebrow mb-2 text-amber-accent">— Curation</div>
-        <h1 class="display text-4xl sm:text-5xl leading-tight">Featured films</h1>
-        <p class="text-bone-300 mt-2 text-sm">
+        <div class="eyebrow mb-3 text-amber-accent">— Curation</div>
+        <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Featured films</h1>
+        <p class="text-bone-300 mt-3 text-sm leading-relaxed max-w-2xl">
           Pick the films that rotate through the cinematic hero on the public Discover page.
           When this list is empty, the hero falls back to the top-rated films.
         </p>
@@ -124,7 +142,7 @@ onMounted(load);
         <div class="eyebrow mb-3">— Catalogue</div>
         <div class="relative mb-4">
           <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bone-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input v-model="search" type="text" class="field !pl-10" placeholder="Search title, director, cast…" />
+          <input v-model="search" @input="onSearchInput" type="text" class="field !pl-10" placeholder="Search title, director, cast…" />
         </div>
         <div v-if="filteredCatalogue.length === 0" class="text-sm text-bone-300 py-8 text-center">
           No films match. {{ search ? 'Try a different search.' : 'All films are already featured.' }}

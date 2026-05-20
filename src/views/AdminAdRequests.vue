@@ -87,8 +87,8 @@ onMounted(load);
 <template>
   <div class="p-6 lg:p-10 space-y-8">
     <header>
-      <div class="eyebrow mb-2 text-amber-accent">Review queue</div>
-      <h1 class="display text-4xl sm:text-5xl leading-tight">Ad requests</h1>
+      <div class="eyebrow mb-3 text-amber-accent">— Review queue</div>
+      <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">Ad requests</h1>
       <p class="text-sm text-bone-300 mt-3 max-w-xl leading-relaxed">Review submissions from advertisers. Approving creates a live ad row tied to the chosen slot.</p>
     </header>
 
