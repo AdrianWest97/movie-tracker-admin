@@ -30,6 +30,7 @@ jobs:
       - name: Build with reCAPTCHA site key
         env:
           VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
+          VITE_PUBLIC_APP_URL: https://d2x7tyc81j9mj2.cloudfront.net
         run: npm run build
       - uses: actions/upload-artifact@v4
         with:
@@ -52,6 +53,7 @@ jobs:
       - name: Build with reCAPTCHA site key
         env:
           VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
+          VITE_PUBLIC_APP_URL: https://d2x7tyc81j9mj2.cloudfront.net
         run: npm run build
       - uses: aws-actions/configure-aws-credentials@v4
         with:

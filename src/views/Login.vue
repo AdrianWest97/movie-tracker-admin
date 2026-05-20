@@ -4,11 +4,13 @@ import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth.js';
 import Wordmark from '../components/Wordmark.vue';
 import { useRecaptcha } from '../composables/useRecaptcha.js';
+import { publicAppUrl } from '../lib/publicAppUrl.js';
 
 const email = ref('');
 const password = ref('');
 const error = ref('');
 const loading = ref(false);
+const appUrl = publicAppUrl();
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -78,7 +80,7 @@ async function submit() {
 
       <p class="text-[11px] text-bone-300 mt-8 leading-relaxed">
         Looking for the main app?
-        <a :href="`http://${typeof location !== 'undefined' ? location.hostname : 'localhost'}:5173`" class="text-amber-accent hover:underline">Open Adrian&rsquo;s Cut →</a>
+        <a :href="appUrl" class="text-amber-accent hover:underline">Open Adrian&rsquo;s Cut →</a>
       </p>
     </div>
   </div>

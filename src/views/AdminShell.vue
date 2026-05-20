@@ -3,10 +3,12 @@ import { computed } from 'vue';
 import { RouterView, RouterLink, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth.js';
 import Wordmark from '../components/Wordmark.vue';
+import { publicAppUrl } from '../lib/publicAppUrl.js';
 
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
+const appUrl = publicAppUrl();
 
 const initials = computed(() => {
   const name = auth.user?.displayName || auth.user?.email || '';
@@ -55,7 +57,7 @@ async function logout() {
 
         <div class="flex items-center gap-2">
           <a
-            href="http://localhost:5173"
+            :href="appUrl"
             target="_blank"
             rel="noopener"
             class="hidden sm:inline-flex items-center gap-1.5 text-xs text-bone-300 hover:text-bone-50 transition-colors px-3 py-1.5 rounded-md hover:bg-ink-800/70"

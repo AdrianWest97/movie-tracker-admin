@@ -2,8 +2,9 @@
 import { ref, computed, onMounted, useTemplateRef } from 'vue';
 import api from '../api/client.js';
 import Toast from '../components/Toast.vue';
+import { publicAppUrl } from '../lib/publicAppUrl.js';
 
-const PUBLIC_APP_URL = 'http://localhost:5173';
+const PUBLIC_APP_URL = publicAppUrl();
 
 const reviews = ref([]);          // always holds all reviews
 const loading = ref(true);
