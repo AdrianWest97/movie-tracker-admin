@@ -11,24 +11,22 @@ const error = ref('');
 const testResult = ref(null);
 const toastRef = useTemplateRef('toast');
 
-// Active selection + the editable form for whichever provider is active.
-// Other providers stay configured in the backend but aren't shown here.
 const provider = ref('groq');
 const model = ref('');
-const apiKey = ref('');
-const clearKey = ref(false);
 
 const PROVIDERS = {
   groq: {
     label: 'Groq (open-source)',
     blurb: 'Hosted Llama / Mixtral on Groq LPU. Extreme throughput, generous free tier, earns OSS bonus marks.',
     configKey: 'groq',
+    envVar: 'GROQ_API_KEY',
     models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'mixtral-8x7b-32768']
   },
   huggingface: {
     label: 'Hugging Face',
     blurb: 'Hosted open-source models. Cold-starts can be slow; cost is minimal.',
     configKey: 'huggingface',
+    envVar: 'HF_API_KEY',
     models: ['meta-llama/Meta-Llama-3-8B-Instruct', 'mistralai/Mistral-7B-Instruct-v0.3']
   }
 };
@@ -36,13 +34,9 @@ const PROVIDERS = {
 const active = computed(() => PROVIDERS[provider.value]);
 const activeConfig = computed(() => config.value?.[active.value.configKey] || {});
 
-// When the provider radio changes, sync the form to the backend's stored
-// model for that provider and clear any in-flight key edits.
 watch(provider, (key) => {
   const cfg = config.value?.[PROVIDERS[key].configKey] || {};
   model.value = cfg.model || '';
-  apiKey.value = '';
-  clearKey.value = false;
 });
 
 async function load() {
@@ -52,8 +46,6 @@ async function load() {
     config.value = data;
     provider.value = data.provider;
     model.value = data[PROVIDERS[data.provider].configKey].model || '';
-    apiKey.value = '';
-    clearKey.value = false;
   } finally {
     loading.value = false;
   }
@@ -63,21 +55,13 @@ async function save() {
   error.value = '';
   saving.value = true;
   try {
-    // Backend expects all three model + key slots so it can store per-provider
-    // state. We only mutate the active one and leave the rest alone (empty
-    // string = "no change" per the backend's merge logic).
-    const keyField   = provider.value === 'huggingface' ? 'hfApiKey'   : 'groqApiKey';
-    const modelField = provider.value === 'huggingface' ? 'hfModel'    : 'groqModel';
-
+    const modelField = provider.value === 'huggingface' ? 'hfModel' : 'groqModel';
     const payload = {
       provider: provider.value,
-      [modelField]: model.value || null,
-      [keyField]:   clearKey.value ? '__clear__' : (apiKey.value || '')
+      [modelField]: model.value || null
     };
     const { data } = await api.patch('/admin/ai/config', payload);
     config.value = data;
-    apiKey.value = '';
-    clearKey.value = false;
     toastRef.value?.show('AI configuration saved');
   } catch (e) {
     error.value = e.response?.data?.error || 'Save failed';
@@ -108,7 +92,7 @@ onMounted(load);
       <div class="eyebrow mb-3 text-amber-accent">— Intelligence</div>
       <h1 class="display text-4xl sm:text-5xl font-light leading-[1.05] tracking-tight">AI provider</h1>
       <p class="text-bone-300 mt-3 text-sm leading-relaxed max-w-xl">
-        Pick the model that powers recommendations, natural-language search and the chatbot. Settings here override the bootstrap values from <code class="text-bone-100 bg-ink-800 px-1 py-0.5 rounded text-[11px]">backend/.env</code>.
+        Pick the model that powers recommendations, natural-language search and the chatbot. Provider + model are stored in the database; API keys live in Secrets Manager and are read from the runtime environment.
       </p>
       <p class="text-bone-300 mt-2 text-xs leading-relaxed max-w-xl">
         Adrian's agent actions (add to list, rate, set status) require a model that supports function calling. All current Groq models support it; on Hugging Face it depends on the upstream provider serving the model. If you pick a non-tools model, plain chat still works but action chips will silently no-op.
@@ -168,25 +152,31 @@ onMounted(load);
             </div>
           </div>
 
-          <!-- API key -->
+          <!-- API key — read-only indicator. Keys live in Secrets Manager,
+               are surfaced into the ECS task as env vars, and are NEVER
+               pasted through this UI. Rotation = update the secret + redeploy. -->
           <div>
-            <div class="flex items-baseline justify-between">
-              <label class="label">API key</label>
-              <span v-if="activeConfig.hasKey" class="text-[10px] text-moss-400">Currently set</span>
-              <span v-else class="text-[10px] text-bone-300">Not configured</span>
+            <label class="label">API key</label>
+            <div class="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-ink-900/60 border border-ink-700/60">
+              <div class="min-w-0 text-[12px] text-bone-200 leading-snug">
+                <div class="font-medium text-bone-50">Managed in Secrets Manager</div>
+                <div class="text-[11px] text-bone-300 mt-0.5">
+                  Env var <code class="text-bone-100">{{ active.envVar }}</code> · rotation via secret update + redeploy
+                </div>
+              </div>
+              <span
+                v-if="activeConfig.hasKey"
+                class="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium text-moss-400"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-moss-400"></span> Configured
+              </span>
+              <span
+                v-else
+                class="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium text-ruby-400"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-ruby-400"></span> Not configured
+              </span>
             </div>
-            <input
-              v-model="apiKey"
-              type="password"
-              class="field font-mono text-xs"
-              :placeholder="activeConfig.hasKey ? `Currently: ${activeConfig.apiKey}  (leave blank to keep)` : 'Paste API key…'"
-              autocomplete="off"
-              :disabled="clearKey"
-            />
-            <label v-if="activeConfig.hasKey" class="inline-flex items-center gap-2 mt-2 text-[11px] text-bone-300">
-              <input type="checkbox" v-model="clearKey" class="accent-amber-accent" />
-              Clear stored key
-            </label>
           </div>
         </div>
       </section>
