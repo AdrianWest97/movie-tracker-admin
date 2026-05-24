@@ -110,6 +110,9 @@ onMounted(load);
       <p class="text-bone-300 mt-3 text-sm leading-relaxed max-w-xl">
         Pick the model that powers recommendations, natural-language search and the chatbot. Settings here override the bootstrap values from <code class="text-bone-100 bg-ink-800 px-1 py-0.5 rounded text-[11px]">backend/.env</code>.
       </p>
+      <p class="text-bone-300 mt-2 text-xs leading-relaxed max-w-xl">
+        Adrian's agent actions (add to list, rate, set status) require a model that supports function calling. All current Groq models support it; on Hugging Face it depends on the upstream provider serving the model. If you pick a non-tools model, plain chat still works but action chips will silently no-op.
+      </p>
     </div>
 
     <div v-if="loading" class="card p-8 text-center text-bone-300">Loading…</div>
